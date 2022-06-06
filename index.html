@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Интерактив</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+    body{
+      font-family: 'Montserrat', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      /* background: rgba(153, 1, 255, 0.5); */
+      transition: all .25s;
+      /* добавляет анимацию на фон, чтобы плавно сменялись цвета */
+      /* background: url("https://source.unsplash.com/1600x900/?nature"); */
+      /* фон с фотостока рандомно */
+      background-image: url("nature.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+      color: rgb(57, 26, 145);
+    }
+    div{
+      text-align: center;
+    }
+    button{
+      border: 1px solid rgb(57, 26, 145);
+      padding: 15px 20px;
+      border-radius: 20px;
+      background: transparent;
+      /* прозрачная кнопка */
+      cursor: pointer;
+      outline: none;
+      /* синяя граница у кнопки */
+      color: rgb(57, 26, 145);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+    }
+    /* h2{
+      font-family: 'Lobster', cursive;
+    } */
+    h1, h2{
+      animation: down 1s;
+    }
+
+    @keyframes down{
+      from{transform: translateY(-50px);}
+      to{transform: translateY(0);}
+    }
+    /* @keyframes down{
+      from{}
+      to{}
+    } */
+  </style>
+</head>
+<body>
+  <div>
+    <h2>Привет, Елена</h2>
+    <h1>Сейчас 12:12:12</h1>
+    <button>Сменить фон</button>
+  </div>
+
+  <script>
+    let name
+    // заводим переменную name, через let name
+
+    if (localStorage.getItem('my-name')) {
+      name = localStorage.getItem('my-name')
+      // если переменная name есть в хранилище, то выводим
+    } else {
+       name = prompt('Как вас зовут?')
+       // если переменной нет, то будет вопрос 'Как вас зовут?'
+       localStorage.setItem('my-name',name)
+      //  сохраняем(методом setItem) в localStorage переменную name(key-ключ - my-name, а value-значение будет записано в name после вопроса 'Как вас зовут', выведенного через prompt) 
+    }
+    // сохраняем введенное имя, чтобы при перезагрузке снова не вводить его
+    // const name = prompt('Как вас зовут?')
+
+    document.querySelector('h2').textContent = 'Привет, ' + name
+
+    document.querySelector('h1').textContent = 'Сейчас ' + new Date().toLocaleTimeString()
+    // показывает время сейчас, а .toLocaleTimeString() изменяет формат до 20:22:12
+
+    setInterval(function() {
+      document.querySelector('h1').textContent = 'Сейчас ' + new Date().toLocaleTimeString()
+    }, 1000)
+    // 1000 - это 1000 миллисекунд или 1 секунда
+    // то есть каждую секунду будут обновляться часы 
+    // setInterval(function() {}, 1000) во внутрь кидаем то, что прописывали выше(полностью скопировав)
+
+
+    // создаем массив(органиченный набор цветов) для смены цвета фона при клике
+    // const colors = ['', '']
+    const colors = ['#98ff98', '#47ff47', '#00ff00', '#00ff7f', '#66ff00', '#7fff00', '#7cfc00']
+    // индекс для контроля текущего цвета
+    let index = 0
+    // 0 индекс - это red, 1 индекс - это green, 2 индекс - это blue, 3 индекс - это pink
+
+    document.querySelector('button').onclick = function() {
+      // .onclick - при клике
+      document.body.style.background = colors[index]
+      // обращаемся к body к стилям style и меняем этому тегу фон background
+      index++
+      // index++ - необходимо чтобы индекс менялся с нажатием, иначе меняет только при первом нажатии
+      if (index >= colors.length) index = 0
+      // если index больше или равен длине заданного массива, то index начинается с 0
+    }
+  </script>
+</body>
+</html>
